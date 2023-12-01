@@ -1,3 +1,5 @@
+#Tarea: Estudiar el modelo y dejarlo en espacio de estado linealizado
+
 import numpy as np
 import matplotlib.pyplot as plt
 
