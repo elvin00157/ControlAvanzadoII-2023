@@ -13,7 +13,7 @@ def edoI(y, t, beta,I,S,N,E,L,R,epsilon, landa,delta):
 def edoL(y, t, beta,I,S,N,E,L,R,epsilon, landa, delta):
     return  landa*I-delta*y
 
-def edoR(y, t, beta,I,S,N,E,L,R,epsilon, landa,delta):
+def edoR(y, t, beta,I,S,N,E,L,R,epsilon, landa, delta):
     return  delta*L
 
 
