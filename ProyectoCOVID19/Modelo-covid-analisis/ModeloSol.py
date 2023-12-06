@@ -5,18 +5,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #Parámetros para el Reino Unido, usando los valores de la Tabla I
-beta_0 = 1.28  #Tasa de transmisión inicial
-gamma = 1/2.8  #Tasa de recuperación
-epsilon = 1/6.2  #Tasa de incubación
-delta = 0  #Tasa de mortalidad
-tau_m = 10  #Retraso en días
-
-
-#Parámetros de cambio para el Reino Unido según la Tabla I
-t1 = 15
-rho1 = 0.65
-t2 = 25
-rho2 = 0.27
+beta_0 = 1.3  #Tasa de transmisión inicial
+gamma = 1/3.1  #Tasa de recuperación
+epsilon = 1/4.3  #Tasa de incubación
+delta = 1/33  #Tasa de mortalidad
+tau_m = 9  #Retraso en días
+t1 = 2
+rho1 = 0.56
+t2 = 19
+rho2 = 0.205
 
 #Tasa de transmisión que cambia en el tiempo
 def beta(t, beta_0, t1, rho1, t2, rho2):
@@ -52,14 +49,14 @@ def covid_model(t, y, beta_0, t1, rho1, t2, rho2, gamma, epsilon, delta):
 #     return [dEdt, dIdt, dLdt, dTdt]
 
 #Inicializar historia con condiciones iniciales
-E0 = 1
-I0 = 1
+E0 = 3500
+I0 = 0
 L0 = 0
 T0 = 0
 y0 = [E0, I0, L0, T0]
 
 #Resolver el modelo
-t_span = [0, 400]  # Un periodo que abarque suficiente tiempo
+t_span = [0, 70]  # Un periodo que abarque suficiente tiempo
 t_eval = np.linspace(t_span[0], t_span[1], int(t_span[1] - t_span[0]) + 1)  # Evaluar cada día
 
 #sol = solve_ivp(covid_model, t_span, y0, t_eval=t_eval, dense_output=True)
@@ -79,7 +76,8 @@ sol = solve_ivp(covid_model, t_span, y0, args=(beta_0, t1, rho1, t2, rho2, gamma
 sol_interp = sol.sol
 
 #Calculamos Nr, Ar y Tr con los retrasos
-Nr = np.array([epsilon * sol_interp(sol.t[i] - tau_m)[0] if sol.t[i] >= tau_m else E0 for i in range(len(sol.t))])
+Nr = np.array([epsilon * sol_interp(sol.t[i] - tau_m)[0] if sol.t[i] >= tau_m else 0 for i in range(len(sol.t))])
+#Nr = np.array([epsilon * sol_interp(sol.t[i] - tau_m)[0] if sol.t[i] >= tau_m else E0 for i in range(len(sol.t))])
 Ar = np.array([sol_interp(sol.t[i] - tau_m)[1] + sol_interp(sol.t[i] - tau_m)[2] if sol.t[i] >= tau_m else I0 + L0 for i in range(len(sol.t))])
 Tr = np.array([sol_interp(sol.t[i] - tau_m)[3] if sol.t[i] >= tau_m else T0 for i in range(len(sol.t))])
 
@@ -88,9 +86,9 @@ plt.figure(figsize=(12, 6))
 plt.plot(sol.t, Ar, label='Ar(t) - Casos Activos Reportados')
 plt.plot(sol.t, Tr, label='Tr(t) - Total de Casos Reportados')
 plt.title('Casos Activos y Totales Reportados acumulados')
-plt.xlabel('Días desde el brote')
+plt.xlabel('t [días]')
 plt.ylabel('Número de individuos (escala logarítmica)')
-plt.yscale('log')  #Establecer la escala del eje Y a logarítmica
+#plt.yscale('log')  #Establecer la escala del eje Y a logarítmica
 plt.legend()
 plt.grid(True)
 plt.show()
@@ -101,47 +99,47 @@ plt.plot(sol.t, Nr, label='Nr(t) - Nuevos Casos Diarios Reportados')
 plt.title('Nuevos Casos Diarios Reportados a lo largo del tiempo')
 plt.xlabel('Días desde el brote')
 plt.ylabel('Número de individuos (escala logarítmica)')
-plt.yscale('log')  #Establecer la escala del eje Y a logarítmica
+#plt.yscale('log')  #Establecer la escala del eje Y a logarítmica
 plt.legend()
 plt.grid(True)
 plt.show()
 
-#Graficar E(t)
-plt.figure(figsize=(12, 6))
-plt.plot(sol.t, sol.y[0], label='E(t) - Individuos Expuestos')
-plt.title('Número de Individuos infectados, sin ser infecciosos')
-plt.xlabel('Días desde el brote')
-plt.ylabel('Número de Individuos Expuestos')
-plt.legend()
-plt.grid(True)
-plt.show()
+# #Graficar E(t)
+# plt.figure(figsize=(12, 6))
+# plt.plot(sol.t, sol.y[0], label='E(t) - Individuos Expuestos')
+# plt.title('Número de Individuos infectados, sin ser infecciosos')
+# plt.xlabel('Días desde el brote')
+# plt.ylabel('Número de Individuos Expuestos')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
 
-#Graficar I(t)
-plt.figure(figsize=(12, 6))
-plt.plot(sol.t, sol.y[1], label='I(t) - Número de individuos infectados')
-plt.title('Número de Individuos Infectados')
-plt.xlabel('Días desde el brote')
-plt.ylabel('Número de Individuos Infectados')
-plt.legend()
-plt.grid(True)
-plt.show()
+# #Graficar I(t)
+# plt.figure(figsize=(12, 6))
+# plt.plot(sol.t, sol.y[1], label='I(t) - Número de individuos infectados')
+# plt.title('Número de Individuos Infectados')
+# plt.xlabel('Días desde el brote')
+# plt.ylabel('Número de Individuos Infectados')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
 
-#Graficar L(t)
-plt.figure(figsize=(12, 6))
-plt.plot(sol.t, sol.y[2], label='L(t)- Numero de individuos infectados Post-Latencia')
-plt.title('Número de Individuos Post-Latencia')
-plt.xlabel('Días desde el brote')
-plt.ylabel('Número de Individuos Latentes')
-plt.legend()
-plt.grid(True)
-plt.show()
+# #Graficar L(t)
+# plt.figure(figsize=(12, 6))
+# plt.plot(sol.t, sol.y[2], label='L(t)- Numero de individuos infectados Post-Latencia')
+# plt.title('Número de Individuos Post-Latencia')
+# plt.xlabel('Días desde el brote')
+# plt.ylabel('Número de Individuos Latentes')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
 
-#Graficar T(t)
-plt.figure(figsize=(12, 6))
-plt.plot(sol.t, sol.y[3], label='T(t) - Total de Casos Detectados')
-plt.title('Número Total de Casos Detectados a lo largo del tiempo')
-plt.xlabel('Días desde el brote')
-plt.ylabel('Número Total de Casos Detectados')
-plt.legend()
-plt.grid(True)
-plt.show()
+# #Graficar T(t)
+# plt.figure(figsize=(12, 6))
+# plt.plot(sol.t, sol.y[3], label='T(t) - Total de Casos Detectados')
+# plt.title('Número Total de Casos Detectados a lo largo del tiempo')
+# plt.xlabel('Días desde el brote')
+# plt.ylabel('Número Total de Casos Detectados')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
