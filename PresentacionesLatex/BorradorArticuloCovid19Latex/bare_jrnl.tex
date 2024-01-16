@@ -1,0 +1,848 @@
+
+
+\documentclass[journal]{IEEEtran}
+
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+%\ifCLASSOPTIONcaptionsoff
+%  \usepackage[nomarkers]{endfloat}
+% \let\MYoriglatexcaption\caption
+% \renewcommand{\caption}[2][\relax]{\MYoriglatexcaption[#2]{#2}}
+%\fi
+% endfloat.sty was written by James Darrell McCauley, Jeff Goldberg and 
+% Axel Sommerfeldt. This package may be useful when used in conjunction with 
+% IEEEtran.cls'  captionsoff option. Some IEEE journals/societies require that
+% submissions have lists of figures/tables at the end of the paper and that
+% figures/tables without any captions are placed on a page by themselves at
+% the end of the document. If needed, the draftcls IEEEtran class option or
+% \CLASSINPUTbaselinestretch interface can be used to increase the line
+% spacing as well. Be sure and use the nomarkers option of endfloat to
+% prevent endfloat from "marking" where the figures would have been placed
+% in the text. The two hack lines of code above are a slight modification of
+% that suggested by in the endfloat docs (section 8.4.1) to ensure that
+% the full captions always appear in the list of figures/tables - even if
+% the user used the short optional argument of \caption[]{}.
+% IEEE papers do not typically make use of \caption[]'s optional argument,
+% so this should not be an issue. A similar trick can be used to disable
+% captions of packages such as subfig.sty that lack options to turn off
+% the subcaptions:
+% For subfig.sty:
+% \let\MYorigsubfloat\subfloat
+% \renewcommand{\subfloat}[2][\relax]{\MYorigsubfloat[]{#2}}
+% However, the above trick will not work if both optional arguments of
+% the \subfloat command are used. Furthermore, there needs to be a
+% description of each subfigure *somewhere* and endfloat does not add
+% subfigure captions to its list of figures. Thus, the best approach is to
+% avoid the use of subfigure captions (many IEEE journals avoid them anyway)
+% and instead reference/explain all the subfigures within the main caption.
+% The latest version of endfloat.sty and its documentation can obtained at:
+% http://www.ctan.org/pkg/endfloat
+%
+% The IEEEtran \ifCLASSOPTIONcaptionsoff conditional can also be used
+% later in the document, say, to conditionally put the References on a 
+% page by themselves.
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{Control predictivo GPC aplicado al modelo COVID-19}
+%
+%
+% author names and IEEE memberships
+% note positions of commas and nonbreaking spaces ( ~ ) LaTeX will not break
+% a structure at a ~ so this keeps an author's name from being broken across
+% two lines.
+% use \thanks{} to gain access to the first footnote area
+% a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
+% was not built to handle multiple paragraphs
+%
+
+\author{\IEEEauthorblockN{Rodrigo Salazar, Elvin Soto, Carlos Fuhrhop}
+
+\IEEEauthorblockA{Instituto de Electricidad y Electrónica\\
+Universidad Austral de Chile}}
+%\thanks{M. Shell was with the Department of Electrical and Computer Engineering, %Georgia Institute of Technology, Atlanta, GA, 30332 USA e-mail: (see %http://www.michaelshell.org/contact.html).}
+%\thanks{J. Doe and J. Doe are with Anonymous University.}
+%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}}
+
+% note the % following the last \IEEEmembership and also \thanks - 
+% these prevent an unwanted space from occurring between the last author name
+% and the end of the author line. i.e., if you had this:
+% 
+% \author{....lastname \thanks{...} \thanks{...} }
+%                     ^------------^------------^----Do not want these spaces!
+%
+% a space would be appended to the last name and could cause every name on that
+% line to be shifted left slightly. This is one of those "LaTeX things". For
+% instance, "\textbf{A} \textbf{B}" will typeset as "A B" not "AB". To get
+% "AB" then you have to do: "\textbf{A}\textbf{B}"
+% \thanks is no different in this regard, so shield the last } of each \thanks
+% that ends a line with a % and do not let a space in before the next \thanks.
+% Spaces after \IEEEmembership other than the last one are OK (and needed) as
+% you are supposed to have spaces between the names. For what it is worth,
+% this is a minor point as most people would not even notice if the said evil
+% space somehow managed to creep in.
+
+
+
+% The paper headers
+%\markboth{Journal of \LaTeX\ Class Files,~Vol.~14, No.~8, August~2015}%
+\markboth{Control Avanzado ELEL315-21, ENERO 2024}
+{Shell \MakeLowercase{\textit{et al.}}: Bare Demo of IEEEtran.cls for IEEE Journals}
+% The only time the second header will appear is for the odd numbered pages
+% after the title page when using the twoside option.
+% 
+% *** Note that you probably will NOT want to include the author's ***
+% *** name in the headers of peer review papers.                   ***
+% You can use \ifCLASSOPTIONpeerreview for conditional compilation here if
+% you desire.
+
+
+
+
+% If you want to put a publisher's ID mark on the page you can do it like
+% this:
+%\IEEEpubid{0000--0000/00\$00.00~\copyright~2015 IEEE}
+% Remember, if you use this you must call \IEEEpubidadjcol in the second
+% column for its text to clear the IEEEpubid mark.
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\begin{abstract}
+Este documento detalla el diseño e implementación de un controlador predictivo Generalizado (GPC) al modelo de COVID-19. Se realiza un analisis en bucle abierto variando la intensidad de las medidas públicas establecidas en el pais de Italia, esto nos permite obtener información importante de la dinámica general del modelo. Además, se linealizó el modelo alrededor de un punto de operación y se estableció un modelo de espacio de estado para finalmente la implementación del (GPC). Para la estrategia de control se implementó una estrategia de mitigación que modifique los valores de $A_r$ para varios intervalos de tiempo $t$.
+\end{abstract}
+
+% Note that keywords are not normally used for peerreview papers.
+\begin{IEEEkeywords}
+Control GPC, Casos activos reportados, Nuevos casos reportados diariamente, medidas públicas.
+\end{IEEEkeywords}
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+
+
+\IEEEPARstart{A}quí comienza tu introducción.
+
+
+
+\section{Desarrollo}
+
+
+\subsection{Descripción del modelo COVID-19}
+\begin{equation}
+    \frac{dS}{dt} = -\frac{\beta IS}{N}
+\end{equation}
+
+\begin{equation}
+    \frac{dE}{dt} = \frac{\beta IS}{N} - \epsilon E
+\end{equation}
+
+\begin{equation}
+    \frac{dI}{dt} = \epsilon E - \gamma I
+\end{equation}
+
+\begin{equation}
+    \frac{dL}{dt} = \gamma I - \delta L
+\end{equation}
+
+\begin{equation}
+    \frac{dR}{dt} = \delta L
+\end{equation}
+
+\begin{itemize}
+    \item $N$: La población total.
+    \item $S$: El número de individuos Susceptibles.
+    \item $E$: El número de individuos Expuestos que han contraído la infección pero aún no son infecciosos.
+    \item $I$: El número de individuos Infectados.
+    \item $L$: El número de sujetos que aún están infectados pero ya no son infecciosos debido a hospitalización, cuarentena, o porque los sujetos infectados son mayormente infecciosos solo durante los primeros días después del final del período de latencia.
+    \item $R$: El número de individuos Recuperados y resistentes a futuras infecciones.
+    \item $\beta$: La tasa de transmisión efectiva.
+    \item $\epsilon$: La tasa inversa del período promedio de incubación antes de que uno se vuelva infeccioso.
+    \item $\gamma$: La tasa inversa del tiempo promedio que los sujetos infectados pasan siendo infecciosos.
+    \item $\delta$: La tasa inversa del tiempo promedio que los sujetos infectados permanecen enfermos pero no infecciosos.
+\end{itemize}
+
+
+Donde:
+\begin{itemize}
+    \item Si se hace S(t)/N $\approx$ 1 y se deshace de una ecuación y la variable S.
+    \item También, de este modo el problema se convierte en un problema lineal.
+    \item De hecho, una parte importante de la población puede no ser susceptible a priori, por ejemplo, por motivos genéticos. Sin embargo, a falta de evidencia concreta de este hecho, el principio de precaución sugiere considerar el peor caso S(t)/N = 1.
+    \item  $\beta(u(t), d(t))$ es realmente una función de incertidumbre.
+    \item u(t) indica la intensidad de las políticas públicas respecto a las restricciones.
+    \item d(t) es una perturbación del sistema.
+\end{itemize}
+
+\begin{align}
+    \frac{dE}{dt} &= \beta(u(t), d(t))I - \epsilon E, \label{eq:Et} \\[10pt]
+    \frac{dI}{dt} &= \epsilon E - \gamma I, \label{eq:It} \\[10pt]
+    \frac{dL}{dt} &= \gamma I - \delta L, \label{eq:Lt} \\[10pt]
+    \frac{dR}{dt} &= \delta L, \label{eq:Tt}
+\end{align}
+
+
+
+Consideraciones:
+
+Se llevó a cabo una prueba masiva, se encontró que aproximadamente el 40 \% de los sujetos que dieron positivo son completamente asintomáticos, a pesar de ser infecciosos.
+
+ las pruebas con hisopos tienen más del 20 \% de falsos negativos y algunos sujetos con síntomas leves pueden terminar no siendo testeados.
+
+Podemos suponer que el parámetro variable en el tiempo $\beta$ es en realidad una función de una variable representativa manipulada $u(t)$, donde esta última indica la intensidad de las medidas de salud pública adoptadas en una escala de 0 al 1.
+
+
+La función $\beta(.)$ disminuye monotónicamente desde el valor $\beta_0$, cuando no se aplican restricciones sociales, hasta cero, correspondiente al aislamiento total de cada persona en el país.
+
+
+Hay una considerable incertidumbre involucrada en la estimación de los efectos de diferentes intervenciones en términos de reducción de $\beta$ o equivalentemente de $R_t$.
+
+
+
+\begin{align}
+    \frac{dE_t}{dt} &= \beta(u(t), d(t))I_t - \epsilon E_t, \\[10pt]
+    \frac{dI_t}{dt} &= \epsilon E_t - \gamma I_t,  \\[10pt]
+    \frac{dL_t}{dt} &= \gamma I_t - \delta L_t, \\[10pt]
+    \frac{dT_t}{dt} &= \delta L_t, \\[10pt]
+    N_r(t) &= \epsilon E_t(t - \tau_m), \\[10pt]
+    A_r(t) &= I_t(t - \tau_m) + L_t(t - \tau_m), \\[10pt]
+    T_r(t) &= T_t(t - \tau_m), 
+\end{align}
+
+\subsection{Linealización del Modelo}
+La representación del vector de estado transpuesto se puede observar a continuación:
+
+$$
+\mathbf{x}(t)^T = [x_1, x_2, x_3, x_4]
+$$
+
+Donde:
+
+
+\begin{align*}
+x_1 = E_t, \quad
+x_2 = I_t, \quad
+x_3 = L_t, \quad
+x_4 = T_t, \quad
+u_1 = u_{\beta}(t)
+\end{align*}
+
+
+El espacio de estado, se puede obtener linealizando el modelo mediante Taylor de primer orden,
+
+$$
+\Delta\dot x_j \approx \frac{dx_j}{dt} \approx f(\mathbf{x}_{ie}, u_{1e}) + K_{ji}  \Delta x_i + \frac{\partial f_j}{\partial u_1} \Bigg|_{\substack{\mathbf{x_i}=\mathbf{x}_{ie} \\ u_1 =u_{\beta_e}}} \Delta u_{\beta} 
+$$
+
+donde
+
+$$ K_{ji} = \frac{\partial f_j}{\partial x_i} \Bigg|_{\substack{\mathbf{x_i}=\mathbf{x}_{ie} \\ u_1 =u_{1e}}}
+$$
+
+$$\Delta x_i = x_i - x_{ie}$$
+$$\Delta u_{\beta} = u_{\beta} - u_{\beta_e}$$
+
+El modelo de espacio de estado resultante para una salida $Y(t)=[\Delta\dot N_r,  \Delta\dot A_r,  \Delta\dot T_r  ]^T$:
+
+
+\begin{align*}
+\dot{\mathbf{x}}(t) & = A\mathbf{x}(t) + B\mathbf{u}(t) \\
+Y(t) & = C\mathbf{x}(t-\tau_m) \\
+\end{align*}
+
+
+Los vectores $\dot{\mathbf{x}}(t)$, $\mathbf{x}(t)$ y $\mathbf{u}(t)$ resultantes:
+
+$$
+\dot{\mathbf{x}}(t)^T = [\Delta  \dot{x}_1, \Delta \dot{x}_2, \Delta \dot{x}_3, \Delta \dot{x}_4]
+$$
+
+$$
+{\mathbf{x}}(t)^T = [\Delta{x}_1, \Delta {x}_2, \Delta {x}_3, \Delta {x}_4]
+$$
+
+$$
+{\mathbf{u}}(t) = \Delta u_1
+$$
+
+donde
+
+$$
+A = \begin{bmatrix}
+-\epsilon & u_{\beta_{e}} & 0 & 0  \\
+\epsilon & -\gamma & 0 & 0  \\
+0 & \gamma  & -\delta & 0 \\
+\epsilon & 0 & 0 & 0 \\
+\end{bmatrix}
+$$
+
+$$
+B^T = \begin{bmatrix}
+I_{te} & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+$$
+C = \begin{bmatrix}
+\epsilon & 0 & 0 & 0  \\
+0 & 1 & 1 & 0  \\
+0 & 0  & 0 & 1 \\
+\end{bmatrix}
+$$
+
+Los puntos de equilibrio se pueden obtener cuando las ecuaciones diferenciales no sufren cambios:
+
+
+$$\frac{dE_{t}}{dt} = \frac{dI_{t}}{dt} = \frac{dL_{t}}{dt} = \frac{dT_{t}}{dt} = 0$$
+
+por lo tanto,
+
+$$E_{t}=\frac{\beta_{0}}{\epsilon u_e}I_{t}$$
+
+$$I_{t}=\frac{\epsilon}{\gamma}E_{t}$$
+
+$$L_{t}=\frac{\gamma}{\delta}I_{t}$$
+
+$$T_{t} = 0 $$
+
+Para encontrar un punto de equilibrio solo basta encontrar $I_{t}$.
+
+
+\subsection{Control Predictivo Generalizado (GPC)}
+Para implementar un controlador GPC, primero se definen los parámetros y matrices del modelo del sistema que deseamos controlar. El modelo en espacio de estados está dado por las siguientes ecuaciones:
+
+\begin{align}
+x(t + 1) &= Ax(t) + Bu(t), \\
+y(t) &= Hx(t) 
+\end{align}
+
+El criterio de rendimiento \( J \) es:
+
+
+\begin{align*}
+J = &\frac{1}{2} \sum_{j=1}^{p_1} [y_d(t + j) - \hat{y}(t + j)]^T Q_j [y_d(t + j) - \hat{y}(t + j)] \\
+& + \frac{1}{2} \sum_{j=0}^{p_2} \Delta u(t + j)^T R_j \Delta u(t + j),
+\end{align*}
+
+
+O también descrita para un intervalo de predicción:
+
+\begin{align}
+J = \frac{1}{2} \left[ (Y_d - Y)^T Q (Y_d - Y) + \Delta U^T R \Delta U \right],
+\end{align}
+
+Donde \( Y_d \) es el vector de referencia deseado, \( Y \) la salida predicha,  \(Q\) la matriz de ponderación del error y \( R \) la matriz de ponderación respecto al esfuerzo de control. Este criterio de desempeño se utiliza en muchos controladores predictivos. Para tratar con incrementos de control en lugar de la salida de control, la ecuación compuesta puede escribirse como:
+
+\begin{align}
+Y = Gx(t) + F_{11} \Delta U + F_2 u(t - 1)
+\end{align}
+
+Donde:
+
+\[
+G = 
+\begin{bmatrix}
+HA \\
+HA^2 \\
+\vdots \\
+HA^{p_1}
+\end{bmatrix},
+\]
+
+\[
+F_{11} = \begin{bmatrix}
+    HB & 0 & \cdots & 0 \\
+    H(A + I)B & HB & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    H\varUpsilon(p_2)B & H\varUpsilon(p_2 - 1)B & \cdots & H(A^{p_1 - p_2 - 1}B)
+\end{bmatrix},
+\]
+
+\[
+F_2 = \begin{bmatrix}
+    HB \\
+    H(A + I)B \\
+    \vdots \\
+    H(A^{p1 - 1} + A^{p1 - 2} + \ldots + A^{p2 - p1 - 1})B
+\end{bmatrix},
+\]
+
+\[
+\Delta U = [\Delta u(t), \Delta u(t + 1), \ldots, \Delta u(t + p_2)]^T
+\]
+
+Con \[
+\varUpsilon(j) = \sum_{k=0}^{j} A^{p_{1} - p_{2} - 1 + k}
+\]
+
+
+La solución para el cambio en la señal de control \( \Delta U \) que minimiza \( J \) es:
+\begin{align}\label{ecua-control}
+\Delta U = (F_{11}^T Q F_{11} + rI)^{-1} F_{11}^T Q \left[Y_d - Gx(t) - F_2 u(t - 1)\right]
+\end{align}
+
+Aunque (\ref{ecua-control}) proporciona la secuencia de control completa que minimiza \( J \) en el horizonte de predicción, solo se aplican al sistema los valores de las primeras \( m \) filas como la señal de control. Por lo tanto, la ley de control final tiene la forma:
+
+\begin{align}
+\Delta u(t) = g_1 [Y_d - Gx(t) - F_2u(t - 1)]
+\end{align}
+
+Con \( g_1 = \left[ I_m, 0, 0, \ldots, 0 \right] \left( F_{11}^T Q F_{11} + R \right)^{-1} F_{11}^T Q \), siendo \( F_{11}^T Q \) las primeras \( m \) filas de la matriz \( \left( F_{11}^T Q F_{11} + R \right)^{-1} F_{11}^T Q \). \\
+
+Para implementar un controlador Predictivo Basado en Modelo (GPC) en Python, sigue los siguientes pasos:
+
+\begin{enumerate}
+    \item Define el modelo del sistema. Establece las matrices \( A \), \( B \), y \( H \) según el modelo de tu sistema.
+    \item Calcula las matrices \( G \) \( F_{11} \) y \( F_2 \) con base en las matrices del sistema y los horizontes de predicción y control.
+    \item Define la función objetivo \( J \) que incluye el seguimiento de la referencia y el esfuerzo de control, con matrices de ponderación \( Q \) y \( R \).
+    \item Optimiza \( J \) respecto a la secuencia de control \( \Delta U \), sujeto a las restricciones del sistema, para calcular el control óptimo en cada paso de tiempo.
+\end{enumerate}
+
+
+\section{Experiencia practica}
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{myfigure}
+% where an .eps filename suffix will be assumed under latex, 
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure}
+
+% Note that the IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command,
+% and the \label for the overall figure must come after \caption.
+% \hfil is used as a separator to get equal spacing.
+% Watch out that the combined width of all the subfigures on a 
+% line do not exceed the text width or a line break will occur.
+%
+%\begin{figure*}[!t]
+%\centering
+%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
+%\label{fig_second_case}}
+%\caption{Simulation results for the network.}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat[]), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+% labels, the optional argument to \subfloat must be present. If a
+% subcaption is not desired, just leave its contents blank,
+% e.g., \subfloat[].
+
+
+% An example of a floating table. Note that, for IEEE style tables, the
+% \caption command should come BEFORE the table and, given that table
+% captions serve much like titles, are usually capitalized except for words
+% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
+% and up, which are usually not capitalized unless they are the first or
+% last word of the caption. Table text will default to \footnotesize as
+% the IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that the IEEE does not put floats in the very first column
+% - or typically anywhere on the first page for that matter. Also,
+% in-text middle ("here") positioning is typically not used, but it
+% is allowed and encouraged for Computer Society conferences (but
+% not Computer Society journals). Most IEEE journals/conferences use
+% top floats exclusively. 
+% Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the
+% \fnbelowfloat command of the stfloats package.
+
+
+
+
+\section{Conclusion}
+The conclusion goes here.
+
+
+
+
+
+% if have a single appendix:
+%\appendix[Proof of the Zonklar Equations]
+% or
+%\appendix  % for no appendix heading
+% do not use \section anymore after \appendix, only \section*
+% is possibly needed
+
+% use appendices with more than one appendix
+% then use \section to start each appendix
+% you must declare a \section before using any
+% \subsection or using \label (\appendices by itself
+% starts a section numbered zero.)
+%
+
+
+\appendices
+\section{Proof of the First Zonklar Equation}
+Appendix one text goes here.
+
+% you can choose not to have a title for an appendix
+% if you want by leaving the argument blank
+\section{}
+Appendix two text goes here.
+
+
+% use section* for acknowledgment
+\section*{Acknowledgment}
+
+
+The authors would like to thank...
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+\begin{thebibliography}{1}
+
+\bibitem{IEEEhowto:kopka}
+H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+\end{thebibliography}
+
+% biography section
+% 
+% If you have an EPS/PDF photo (graphicx package needed) extra braces are
+% needed around the contents of the optional argument to biography to prevent
+% the LaTeX parser from getting confused when it sees the complicated
+% \includegraphics command within an optional argument. (You could create
+% your own custom macro containing the \includegraphics command to make things
+% simpler here.)
+%\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
+% or if you just want to reserve a space for a photo:
+
+%\begin{IEEEbiography}{Michael Shell}
+%Biography text here.
+%\end{IEEEbiography}
+
+% if you will not have a photo at all:
+%\begin{IEEEbiographynophoto}{John Doe}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+
+% insert where needed to balance the two columns on the last page with
+% biographies
+%\newpage
+
+%\begin{IEEEbiographynophoto}{Jane Doe}
+%Biography text here.
+%\end{IEEEbiographynophoto}
+
+% You can push biographies down or up by placing
+% a \vfill before or after them. The appropriate
+% use of \vfill depends on what kind of text is
+% on the last page and whether or not the columns
+% are being equalized.
+
+%\vfill
+
+% Can be used to pull up biographies so that the bottom of the last one
+% is flush with the other column.
+%\enlargethispage{-5in}
+
+
+
+% that's all folks
+\end{document}
+
+
